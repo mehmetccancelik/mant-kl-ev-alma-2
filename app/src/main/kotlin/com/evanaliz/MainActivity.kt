@@ -43,6 +43,11 @@ class MainActivity : AppCompatActivity() {
         accessibilityButton.setOnClickListener {
             openAccessibilitySettings()
         }
+
+        findViewById<Button>(R.id.exit_button).setOnClickListener {
+            finishAffinity()
+            System.exit(0)
+        }
     }
 
     override fun onResume() {

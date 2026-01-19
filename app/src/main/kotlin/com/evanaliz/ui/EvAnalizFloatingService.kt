@@ -124,11 +124,11 @@ class EvAnalizFloatingService : IntegratedFloatingService() {
             val intent = Intent(this, TabbedAnalysisActivity::class.java).apply {
                 putExtra(TabbedAnalysisActivity.EXTRA_HOUSE_PRICE, result.calculationResult.housePrice)
                 putExtra(TabbedAnalysisActivity.EXTRA_MONTHLY_RENT, result.calculationResult.estimatedMonthlyRent)
-                // Konum bilgisi - şimdilik sourcePackage kullanılıyor, ileride extraction güncellenecek
+                // Konum bilgisi
                 putExtra(TabbedAnalysisActivity.EXTRA_LOCATION, result.parsedData.sourcePackage)
-                // TODO: Koordinatları çekmek için extraction güncellenecek
-                putExtra(TabbedAnalysisActivity.EXTRA_LATITUDE, 0.0)
-                putExtra(TabbedAnalysisActivity.EXTRA_LONGITUDE, 0.0)
+                // Koordinatları aktar
+                putExtra(TabbedAnalysisActivity.EXTRA_LATITUDE, result.parsedData.latitude ?: 0.0)
+                putExtra(TabbedAnalysisActivity.EXTRA_LONGITUDE, result.parsedData.longitude ?: 0.0)
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             startActivity(intent)

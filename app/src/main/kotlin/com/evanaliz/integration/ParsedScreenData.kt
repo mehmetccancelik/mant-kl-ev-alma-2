@@ -28,7 +28,20 @@ data class ParsedScreenData(
     /**
      * Kaynak uygulama
      */
-    val sourcePackage: String
+    /**
+     * Kaynak uygulama
+     */
+    val sourcePackage: String,
+
+    /**
+     * Enlem (Latitude) - varsa
+     */
+    val latitude: Double? = null,
+
+    /**
+     * Boylam (Longitude) - varsa
+     */
+    val longitude: Double? = null
 ) {
     /**
      * Parse başarılı mı?
@@ -41,7 +54,9 @@ data class ParsedScreenData(
             housePrice = null,
             estimatedMonthlyRent = null,
             allDetectedValues = emptyList(),
-            sourcePackage = sourcePackage
+            sourcePackage = sourcePackage,
+            latitude = null,
+            longitude = null
         )
     }
 }

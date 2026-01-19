@@ -49,6 +49,15 @@
         android:text="Erişilebilirlik Ayarları"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
+    <Button
+        android:id="@+id/exit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Uygulamadan Çık"
+        android:textColor="#D32F2F"
+        style="@style/Widget.MaterialComponents.Button.TextButton" />
+
     <!-- Instructions -->
     <TextView
         android:layout_width="match_parent"

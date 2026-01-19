@@ -45,6 +45,17 @@ object TextDetectionRules {
      */
     private val NUMBER_SEPARATORS = listOf('.', ',', ' ')
 
+    /**
+     * Koordinat Regex (DMS formatı)
+     * Örn: 40°52'25.0"N 29°18'23.2"E
+     */
+    private val COORDINATE_REGEX = Regex("""\d+°\d+'[\d.]+"[NS]\s+\d+°\d+'[\d.]+"[EW]""")
+
+    /**
+     * Önemli Etiketler
+     */
+    private val IMPORTANT_LABELS = listOf("Fiyat", "fiyat", "FİYAT")
+
     // ═══════════════════════════════════════════════════════════════════════════
     // ANA TESPİT FONKSİYONU
     // ═══════════════════════════════════════════════════════════════════════════
@@ -61,6 +72,12 @@ object TextDetectionRules {
         val trimmed = text.trim()
         if (trimmed.length < 3) return false
         
+        // Önemli etiket mi? (Fiyat vb.)
+        if (IMPORTANT_LABELS.any { trimmed.contains(it, ignoreCase = true) }) return true
+
+        // Koordinat mı?
+        if (isCoordinate(trimmed)) return true
+
         // Para birimi içeriyor mu?
         if (containsCurrency(trimmed)) return true
         
@@ -68,6 +85,13 @@ object TextDetectionRules {
         if (containsLargeNumber(trimmed)) return true
         
         return false
+    }
+
+    /**
+     * Koordinat içeriyor mu?
+     */
+    fun isCoordinate(text: String): Boolean {
+        return COORDINATE_REGEX.containsMatchIn(text)
     }
 
     /**

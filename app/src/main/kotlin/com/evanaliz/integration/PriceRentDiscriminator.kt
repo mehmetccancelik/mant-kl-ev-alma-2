@@ -1,6 +1,7 @@
 package com.evanaliz.integration
 
 import com.evanaliz.accessibility.ExtractionResult
+import com.evanaliz.accessibility.TextDetectionRules
 
 /**
  * Fiyat/Kira Ayrıştırıcı
@@ -65,6 +66,44 @@ object PriceRentDiscriminator {
                 rawTexts = emptyList()
             )
         }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // 1. KOORDİNAT FABRİKASI
+        // ═══════════════════════════════════════════════════════════════════════════
+        var latitude: Double? = null
+        var longitude: Double? = null
+        val texts = extractionResult.extractedTexts
+
+        // Koordinat bul
+        for (text in texts) {
+            if (TextDetectionRules.isCoordinate(text)) {
+                val coords = TextToNumberParser.parseCoordinates(text)
+                if (coords != null) {
+                    latitude = coords.first
+                    longitude = coords.second
+                    break // İlk bulduğumuzu al
+                }
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // 2. ETİKETLİ FİYAT ARAMA (LABEL-BASED)
+        // ═══════════════════════════════════════════════════════════════════════════
+        var labeledPrice: Double? = null
+        
+        for (i in 0 until texts.size - 1) {
+            val current = texts[i].trim()
+            if (current.equals("Fiyat", ignoreCase = true) || current.equals("FİYAT", ignoreCase = true)) {
+                // Etiket bulundu, bir sonrakine bak
+                val next = texts[i + 1]
+                val value = TextToNumberParser.parse(next)
+                
+                if (value != null && value >= MIN_HOUSE_PRICE) {
+                    labeledPrice = value
+                    break
+                }
+            }
+        }
         
         // Tüm metinleri sayıya çevir
         val allValues = TextToNumberParser.parseAll(extractionResult.extractedTexts)
@@ -89,11 +128,14 @@ object PriceRentDiscriminator {
         }
         
         // En iyi eşleşmeyi bul
-        var bestPrice: Double? = null
+        var bestPrice: Double? = labeledPrice // Varsa etiketli fiyatı kullan
         var bestRent: Double? = null
         
         for (price in priceCandidates) {
             for (rent in rentCandidates) {
+                // Eğer etiketli fiyat varsa, sadece onu kullan
+                if (bestPrice != null && price != bestPrice) continue
+
                 // Kira, fiyattan farklı olmalı
                 if (rent == price) continue
                 
@@ -128,7 +170,9 @@ object PriceRentDiscriminator {
             housePrice = bestPrice,
             estimatedMonthlyRent = bestRent,
             allDetectedValues = allValues,
-            sourcePackage = extractionResult.sourcePackage
+            sourcePackage = extractionResult.sourcePackage,
+            latitude = latitude,
+            longitude = longitude
         )
         
         return if (parsedData.isComplete) {

@@ -101,6 +101,60 @@ object TextToNumberParser {
     }
 
     /**
+     * DMS Koordinat metnini parse et.
+     * Örn: 40°52'25.0"N 29°18'23.2"E -> (40.873611, 29.306444)
+     */
+    fun parseCoordinates(text: String): Pair<Double, Double>? {
+        try {
+            // Basit regex ile parçala
+            // 1. Koordinat (Latitude)
+            // 2. Koordinat (Longitude)
+            
+            val parts = text.split(" ")
+            if (parts.size < 2) return null
+            
+            val latStr = parts.find { it.contains("N") || it.contains("S") } ?: return null
+            val lonStr = parts.find { it.contains("E") || it.contains("W") } ?: return null
+            
+            val lat = dmsToDecimal(latStr)
+            val lon = dmsToDecimal(lonStr)
+            
+            if (lat != null && lon != null) {
+                return Pair(lat, lon)
+            }
+        } catch (e: Exception) {
+            // Ignore
+        }
+        return null
+    }
+
+    private fun dmsToDecimal(dms: String): Double? {
+        // 40°52'25.0"N
+        try {
+            val degreeIndex = dms.indexOf('°')
+            val minuteIndex = dms.indexOf('\'')
+            val secondIndex = dms.indexOf('"')
+            
+            if (degreeIndex == -1 || minuteIndex == -1 || secondIndex == -1) return null
+            
+            val degrees = dms.substring(0, degreeIndex).toDouble()
+            val minutes = dms.substring(degreeIndex + 1, minuteIndex).toDouble()
+            val seconds = dms.substring(minuteIndex + 1, secondIndex).toDouble()
+            val direction = dms.last().uppercaseChar()
+            
+            var decimal = degrees + (minutes / 60.0) + (seconds / 3600.0)
+            
+            if (direction == 'S' || direction == 'W') {
+                decimal = -decimal
+            }
+            
+            return decimal
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
+    /**
      * Birden fazla metni parse et ve listeyi döndür.
      */
     fun parseAll(texts: List<String>): List<Double> {
