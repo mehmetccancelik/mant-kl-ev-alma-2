@@ -24,4 +24,13 @@
     
     <!-- Background -->
     <color name="background">#FAFAFA</color>
+    <!-- Modern Soft Colors -->
+    <color name="soft_teal">#4DB6AC</color>
+    <color name="soft_teal_dark">#00897B</color>
+    <color name="pastel_blue">#90CAF9</color>
+    <color name="soft_white">#F5F5F5</color>
+    <color name="soft_grey">#CFD8DC</color>
+    
+    <!-- Updated State Colors -->
+    <color name="fab_background">@color/soft_teal</color>
 </resources>
