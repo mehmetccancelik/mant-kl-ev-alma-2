@@ -45,9 +45,11 @@ data class ParsedScreenData(
 ) {
     /**
      * Parse başarılı mı?
+     * En azından fiyat+kira çifti VEYA koordinat çifti bulunmuş olmalı.
      */
     val isComplete: Boolean
-        get() = housePrice != null && estimatedMonthlyRent != null
+        get() = (housePrice != null && estimatedMonthlyRent != null) || 
+                (latitude != null && longitude != null)
         
     companion object {
         fun empty(sourcePackage: String = "unknown") = ParsedScreenData(

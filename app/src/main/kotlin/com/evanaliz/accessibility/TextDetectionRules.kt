@@ -46,10 +46,41 @@ object TextDetectionRules {
     private val NUMBER_SEPARATORS = listOf('.', ',', ' ')
 
     /**
-     * Koordinat Regex (DMS formatı)
+     * Koordinat Regex (DMS formatı) - TAM FORMAT
      * Örn: 40°52'25.0"N 29°18'23.2"E
      */
-    private val COORDINATE_REGEX = Regex("""\d+°\d+'[\d.]+"[NS]\s+\d+°\d+'[\d.]+"[EW]""")
+    private val COORDINATE_REGEX_FULL = Regex("""\d+°\d+'[\d.]+"[NS]\s+\d+°\d+'[\d.]+"[EW]""")
+
+    /**
+     * Koordinat Regex - TEK PARÇA (Latitude veya Longitude)
+     * Örn: 40°52'25.0"N veya 29°18'23.2"E
+     */
+    private val COORDINATE_REGEX_SINGLE = Regex("""\d+°\d+'[\d.]+"[NSEW]""")
+
+    /**
+     * Ondalık koordinat formatı (tam çift)
+     * Örn: 40.873611, 29.306444 veya 40.873611 29.306444
+     * En az 3 ondalık basamak yeterli
+     */
+    private val COORDINATE_REGEX_DECIMAL = Regex("""\d{1,3}\.\d{3,}[,\s]+\d{1,3}\.\d{3,}""")
+
+    /**
+     * Google Maps ondalık + derece formatı
+     * Örn: 40.873611°N 29.306444°E veya 40.873611° N, 29.306444° E
+     */
+    private val COORDINATE_REGEX_DECIMAL_DEGREE = Regex("""\d{1,3}\.\d{3,}°\s*[NS][,\s]+\d{1,3}\.\d{3,}°\s*[EW]""")
+
+    /**
+     * Tek ondalık koordinat (latitude veya longitude olabilir)
+     * Türkiye için: lat 35-43, lon 25-45 arası
+     */
+    private val COORDINATE_REGEX_SINGLE_DECIMAL = Regex("""\b(3[5-9]|4[0-3])\.\d{4,}\b|\b(2[5-9]|3\d|4[0-5])\.\d{4,}\b""")
+
+    /**
+     * Google Maps URL'den koordinat
+     * Örn: @40.8736,29.3064
+     */
+    private val COORDINATE_REGEX_URL = Regex("""@(-?\d{1,3}\.\d+),(-?\d{1,3}\.\d+)""")
 
     /**
      * Önemli Etiketler
@@ -91,7 +122,26 @@ object TextDetectionRules {
      * Koordinat içeriyor mu?
      */
     fun isCoordinate(text: String): Boolean {
-        return COORDINATE_REGEX.containsMatchIn(text)
+        return COORDINATE_REGEX_FULL.containsMatchIn(text) ||
+               COORDINATE_REGEX_SINGLE.containsMatchIn(text) ||
+               COORDINATE_REGEX_DECIMAL.containsMatchIn(text) ||
+               COORDINATE_REGEX_DECIMAL_DEGREE.containsMatchIn(text) ||
+               COORDINATE_REGEX_SINGLE_DECIMAL.containsMatchIn(text) ||
+               COORDINATE_REGEX_URL.containsMatchIn(text) ||
+               text.contains("°") // Derece işareti varsa koordinat olabilir
+    }
+
+    /**
+     * Metinden koordinat parçasını çıkar
+     */
+    fun extractCoordinateMatch(text: String): String? {
+        COORDINATE_REGEX_FULL.find(text)?.let { return it.value }
+        COORDINATE_REGEX_DECIMAL_DEGREE.find(text)?.let { return it.value }
+        COORDINATE_REGEX_DECIMAL.find(text)?.let { return it.value }
+        COORDINATE_REGEX_URL.find(text)?.let { return it.value }
+        COORDINATE_REGEX_SINGLE.find(text)?.let { return it.value }
+        COORDINATE_REGEX_SINGLE_DECIMAL.find(text)?.let { return it.value }
+        return null
     }
 
     /**

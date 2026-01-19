@@ -101,16 +101,99 @@ object TextToNumberParser {
     }
 
     /**
-     * DMS Koordinat metnini parse et.
-     * Örn: 40°52'25.0"N 29°18'23.2"E -> (40.873611, 29.306444)
+     * Koordinat metnini parse et.
+     * Desteklenen formatlar:
+     * - 40°52'25.0"N 29°18'23.2"E (DMS tam format)
+     * - 40.873611, 29.306444 (Ondalık format)
+     * - 40.873611°N 29.306444°E (Ondalık + Derece)
+     * - @40.8736,29.3064 (URL format)
      */
     fun parseCoordinates(text: String): Pair<Double, Double>? {
+        // 1. URL format dene (@40.123,29.123)
+        parseUrlCoordinates(text)?.let { return it }
+
+        // 2. Ondalık + Derece dene (40.123°N 29.123°E)
+        parseDegreeDecimalCoordinates(text)?.let { return it }
+
+        // 3. Standart ondalık format dene (40.123, 29.123)
+        parseDecimalCoordinates(text)?.let { return it }
+        
+        // 4. DMS format dene (40°...N 29°...E)
+        parseDmsCoordinates(text)?.let { return it }
+        
+        return null
+    }
+
+    /**
+     * URL koordinatlarını parse et (@lat,lon)
+     */
+    private fun parseUrlCoordinates(text: String): Pair<Double, Double>? {
         try {
-            // Basit regex ile parçala
-            // 1. Koordinat (Latitude)
-            // 2. Koordinat (Longitude)
+            val regex = Regex("""@(-?\d{1,3}\.\d+),(-?\d{1,3}\.\d+)""")
+            val match = regex.find(text) ?: return null
             
-            val parts = text.split(" ")
+            val lat = match.groupValues[1].toDoubleOrNull() ?: return null
+            val lon = match.groupValues[2].toDoubleOrNull() ?: return null
+            
+            return Pair(lat, lon)
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
+    /**
+     * Ondalık + Derece koordinatlarını parse et (40.123°N)
+     */
+    private fun parseDegreeDecimalCoordinates(text: String): Pair<Double, Double>? {
+        try {
+            val regex = Regex("""(\d{1,3}\.\d+)°\s*([NS])[,\s]+(\d{1,3}\.\d+)°\s*([EW])""")
+            val match = regex.find(text) ?: return null
+            
+            var lat = match.groupValues[1].toDoubleOrNull() ?: return null
+            val latDir = match.groupValues[2]
+            var lon = match.groupValues[3].toDoubleOrNull() ?: return null
+            val lonDir = match.groupValues[4]
+            
+            if (latDir == "S") lat = -lat
+            if (lonDir == "W") lon = -lon
+            
+            return Pair(lat, lon)
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
+    /**
+     * Ondalık koordinatları parse et
+     * Örn: "40.873611, 29.306444" veya "40.873611 29.306444"
+     */
+    private fun parseDecimalCoordinates(text: String): Pair<Double, Double>? {
+        try {
+            // Virgül veya boşluk ile ayrılmış iki ondalık sayı bul
+            // Google Maps bazen 3 basamak da gösterebilir, toleranslı olalım
+            val regex = Regex("""(\d{1,3}\.\d{3,})[,\s]+(\d{1,3}\.\d{3,})""")
+            val match = regex.find(text) ?: return null
+            
+            val lat = match.groupValues[1].toDoubleOrNull() ?: return null
+            val lon = match.groupValues[2].toDoubleOrNull() ?: return null
+            
+            // Türkiye koordinat aralığını kontrol et (35-43 N, 25-45 E)
+            if (lat in 34.0..44.0 && lon in 24.0..46.0) {
+                return Pair(lat, lon)
+            }
+        } catch (e: Exception) {
+            // Ignore
+        }
+        return null
+    }
+
+    /**
+     * DMS koordinatları parse et
+     * Örn: "40°52'25.0"N 29°18'23.2"E"
+     */
+    private fun parseDmsCoordinates(text: String): Pair<Double, Double>? {
+        try {
+            val parts = text.split(" ", ",").filter { it.isNotBlank() }
             if (parts.size < 2) return null
             
             val latStr = parts.find { it.contains("N") || it.contains("S") } ?: return null

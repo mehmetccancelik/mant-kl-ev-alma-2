@@ -1,25 +1,16 @@
 package com.evanaliz.integration
 
+import android.util.Log
 import com.evanaliz.accessibility.ExtractionResult
 import com.evanaliz.accessibility.TextDetectionRules
 
 /**
  * Fiyat/Kira Ayrıştırıcı
- * 
- * Bulunan sayısal değerlerden hangisinin ev fiyatı, hangisinin kira olduğunu
- * akıllı kurallarla belirler.
- * 
- * ╔════════════════════════════════════════════════════════════════════════════╗
- * ║ AYRIŞTIRMA KURALLARI                                                       ║
- * ╠════════════════════════════════════════════════════════════════════════════╣
- * ║ 1. En büyük değer = Ev fiyatı (genellikle milyonlar)                       ║
- * ║ 2. Makul aralıktaki ikinci değer = Kira (binler)                           ║
- * ║ 3. Ev fiyatı > 100.000 TL olmalı                                           ║
- * ║ 4. Kira < Ev fiyatının %5'i olmalı                                         ║
- * ╚════════════════════════════════════════════════════════════════════════════╝
  */
 object PriceRentDiscriminator {
 
+    private const val TAG = "EvAnaliz_Discrim"
+    
     /**
      * Minimum ev fiyatı (TL)
      */
@@ -50,8 +41,10 @@ object PriceRentDiscriminator {
      * Extraction sonucunu parse edilmiş veriye dönüştür.
      */
     fun discriminate(extractionResult: ExtractionResult): ParseResult {
+        Log.d(TAG, "discriminate() START - source: ${extractionResult.sourcePackage}")
         
         if (!extractionResult.isSuccessful) {
+            Log.e(TAG, "Extraction failed: ${extractionResult.errorMessage}")
             return ParseResult.Failure(
                 error = ParseError.UnexpectedError(
                     extractionResult.errorMessage ?: "Bilinmeyen hata"
@@ -60,7 +53,11 @@ object PriceRentDiscriminator {
             )
         }
         
-        if (extractionResult.extractedTexts.isEmpty()) {
+        val texts = extractionResult.extractedTexts
+        Log.d(TAG, "Extracted texts count: ${texts.size}")
+        texts.forEachIndexed { index, s -> Log.v(TAG, "Text[$index]: $s") }
+
+        if (texts.isEmpty()) {
             return ParseResult.Failure(
                 error = ParseError.NoDataFound,
                 rawTexts = emptyList()
@@ -72,17 +69,55 @@ object PriceRentDiscriminator {
         // ═══════════════════════════════════════════════════════════════════════════
         var latitude: Double? = null
         var longitude: Double? = null
-        val texts = extractionResult.extractedTexts
 
-        // Koordinat bul
+        // Önce tam koordinat formatını ara
         for (text in texts) {
-            if (TextDetectionRules.isCoordinate(text)) {
-                val coords = TextToNumberParser.parseCoordinates(text)
-                if (coords != null) {
-                    latitude = coords.first
-                    longitude = coords.second
-                    break // İlk bulduğumuzu al
+            val coords = TextToNumberParser.parseCoordinates(text)
+            if (coords != null) {
+                latitude = coords.first
+                longitude = coords.second
+                Log.i(TAG, "Full coordinate found: $latitude, $longitude in text: \"$text\"")
+                break 
+            }
+        }
+
+        // Eğer bulamadıysak, ayrı parça olarak ara (Google Maps'te genelde ayrı satırlardadır)
+        if (latitude == null || longitude == null) {
+            var latFound: Double? = null
+            var lonFound: Double? = null
+            
+            for (text in texts) {
+                // Sadece N/S/E/W içerenleri değil, Türkiye aralığındaki sayıları da ara
+                val regex = Regex("""^(\d{2}\.\d{3,})""")
+                val match = regex.find(text.trim())
+                if (match != null) {
+                    val value = match.groupValues[1].toDoubleOrNull()
+                    if (value != null) {
+                        // Türkiye Latitude: 36-42
+                        if (value in 35.0..43.0 && latFound == null) {
+                            latFound = value
+                            Log.d(TAG, "Potential Latitude found: $value")
+                        }
+                        // Türkiye Longitude: 26-45
+                        else if (value in 25.0..46.0 && lonFound == null) {
+                            lonFound = value
+                            Log.d(TAG, "Potential Longitude found: $value")
+                        }
+                    }
                 }
+                
+                // Derece formatı (tekli)
+                if (text.contains("°")) {
+                    if (text.contains("N") || text.contains("S")) {
+                        // DMS parsing needed or just simple decimal + degree
+                    }
+                }
+            }
+            
+            if (latFound != null && lonFound != null) {
+                latitude = latFound
+                longitude = lonFound
+                Log.i(TAG, "Combined coordinates from separate parts: $latitude, $longitude")
             }
         }
 
@@ -110,9 +145,10 @@ object PriceRentDiscriminator {
             .filter { it > 0 }
             .sortedDescending()
         
-        if (allValues.isEmpty()) {
+        // Eğer hiçbir sayı bulunamadıysa VE koordinat da yoksa hata döndür
+        if (allValues.isEmpty() && latitude == null) {
             return ParseResult.Failure(
-                error = ParseError.InvalidFormat,
+                error = ParseError.NoDataFound,
                 rawTexts = extractionResult.extractedTexts
             )
         }
