@@ -1,0 +1,237 @@
+{
+  "meta": {
+    "kaynak": "Metro İstanbul",
+    "son_guncelleme": "2026-01-19",
+    "koordinat_notu": "Koordinatlar ve durak sıraları proje/taslak verilerdir"
+  },
+  "projects": [
+    {
+      "id": "M12",
+      "il": "İstanbul",
+      "ilce": [
+        "Kadıköy",
+        "Ataşehir",
+        "Ümraniye"
+      ],
+      "proje_tipi": "Metro",
+      "proje_durumu": "Insaat",
+      "proje_adi": "M12 Göztepe–Ümraniye",
+      "tahmini_bitis": 2026,
+      "etki_mesafesi_km": 2,
+      "stations": [
+        {
+          "sira": 1,
+          "ad": "Göztepe",
+          "lat": 40.9786,
+          "lon": 29.0603
+        },
+        {
+          "sira": 2,
+          "ad": "Yenisahra",
+          "lat": 40.9912,
+          "lon": 29.0934
+        },
+        {
+          "sira": 3,
+          "ad": "Ataşehir Merkez",
+          "lat": 40.9978,
+          "lon": 29.1049
+        },
+        {
+          "sira": 4,
+          "ad": "Finans Merkezi",
+          "lat": 41.0049,
+          "lon": 29.1167
+        },
+        {
+          "sira": 5,
+          "ad": "Ümraniye Merkez",
+          "lat": 41.0164,
+          "lon": 29.1246
+        }
+      ]
+    },
+    {
+      "id": "M10",
+      "il": "İstanbul",
+      "ilce": [
+        "Pendik"
+      ],
+      "proje_tipi": "Metro",
+      "proje_durumu": "Insaat",
+      "proje_adi": "M10 Pendik Merkez–Fevzi Çakmak",
+      "tahmini_bitis": 2026,
+      "etki_mesafesi_km": 1.5,
+      "stations": [
+        {
+          "sira": 1,
+          "ad": "Pendik Merkez",
+          "lat": 40.8776,
+          "lon": 29.2354
+        },
+        {
+          "sira": 2,
+          "ad": "Batı Mahallesi",
+          "lat": 40.8851,
+          "lon": 29.2468
+        },
+        {
+          "sira": 3,
+          "ad": "Fevzi Çakmak",
+          "lat": 40.8924,
+          "lon": 29.2587
+        }
+      ]
+    },
+    {
+      "id": "KZSG",
+      "il": "İstanbul",
+      "ilce": [
+        "Zeytinburnu",
+        "Fatih",
+        "Üsküdar",
+        "Kadıköy"
+      ],
+      "proje_tipi": "Metro",
+      "proje_durumu": "Insaat",
+      "proje_adi": "Kazlıçeşme–Söğütlüçeşme",
+      "tahmini_bitis": 2028,
+      "etki_mesafesi_km": 3,
+      "stations": [
+        {
+          "sira": 1,
+          "ad": "Kazlıçeşme",
+          "lat": 40.9902,
+          "lon": 28.9156
+        },
+        {
+          "sira": 2,
+          "ad": "Yenikapı",
+          "lat": 41.0054,
+          "lon": 28.9517
+        },
+        {
+          "sira": 3,
+          "ad": "Üsküdar",
+          "lat": 41.0220,
+          "lon": 29.0127
+        },
+        {
+          "sira": 4,
+          "ad": "Söğütlüçeşme",
+          "lat": 40.9929,
+          "lon": 29.0374
+        }
+      ]
+    },
+    {
+      "id": "T7",
+      "il": "İstanbul",
+      "ilce": [
+        "Eyüpsultan",
+        "Bayrampaşa"
+      ],
+      "proje_tipi": "Tramvay",
+      "proje_durumu": "Planlanan",
+      "proje_adi": "T7 Eyüpsultan–Bayrampaşa",
+      "tahmini_bitis": 2030,
+      "etki_mesafesi_km": 2,
+      "stations": [
+        {
+          "sira": 1,
+          "ad": "Eyüp Meydanı",
+          "lat": 41.0488,
+          "lon": 28.9284
+        },
+        {
+          "sira": 2,
+          "ad": "Feshane",
+          "lat": 41.0502,
+          "lon": 28.9290
+        },
+        {
+          "sira": 3,
+          "ad": "Bayrampaşa Meydanı",
+          "lat": 41.0266,
+          "lon": 28.8884
+        }
+      ]
+    },
+    {
+      "id": "M4TUZ",
+      "il": "İstanbul",
+      "ilce": [
+        "Pendik",
+        "Tuzla"
+      ],
+      "proje_tipi": "Metro",
+      "proje_durumu": "Planlanan",
+      "proje_adi": "M4 Tavşantepe–Tuzla Uzatma",
+      "tahmini_bitis": 2030,
+      "etki_mesafesi_km": 3,
+      "stations": [
+        {
+          "sira": 1,
+          "ad": "Tavşantepe",
+          "lat": 40.9041,
+          "lon": 29.1315
+        },
+        {
+          "sira": 2,
+          "ad": "Aydınlı",
+          "lat": 40.8685,
+          "lon": 29.1918
+        },
+        {
+          "sira": 3,
+          "ad": "Tuzla Merkez",
+          "lat": 40.8031,
+          "lon": 29.2778
+        }
+      ]
+    },
+    {
+      "id": "MARM",
+      "il": "İstanbul",
+      "ilce": [
+        "Gebze",
+        "Pendik",
+        "Kadıköy",
+        "Üsküdar",
+        "Bakırköy",
+        "Halkalı"
+      ],
+      "proje_tipi": "Banliyö",
+      "proje_durumu": "Aktif",
+      "proje_adi": "Marmaray Entegrasyon ve Geliştirme",
+      "tahmini_bitis": "Sürekli",
+      "etki_mesafesi_km": 5,
+      "stations": [
+        {
+          "sira": 1,
+          "ad": "Ayrılık Çeşmesi",
+          "lat": 41.0025,
+          "lon": 29.0576
+        },
+        {
+          "sira": 2,
+          "ad": "Üsküdar",
+          "lat": 41.0220,
+          "lon": 29.0127
+        },
+        {
+          "sira": 3,
+          "ad": "Bakırköy",
+          "lat": 40.9766,
+          "lon": 28.8721
+        },
+        {
+          "sira": 4,
+          "ad": "Halkalı",
+          "lat": 41.0369,
+          "lon": 28.7893
+        }
+      ]
+    }
+  ]
+}

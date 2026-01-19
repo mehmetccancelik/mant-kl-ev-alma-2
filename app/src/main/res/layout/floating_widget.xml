@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Floating Widget Layout
+    
+    Dairesel FAB + Progress indicator + Etiket
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <!-- FAB Container -->
+        <FrameLayout
+            android:id="@+id/fab_container"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/fab_background"
+            android:elevation="8dp">
+
+            <!-- FAB Icon -->
+            <ImageView
+                android:id="@+id/fab_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_home"
+                android:tint="@android:color/white"
+                android:contentDescription="@string/fab_icon_description" />
+
+            <!-- Progress Bar (Spinner) -->
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:indeterminate="true"
+                android:visibility="gone"
+                style="?android:attr/progressBarStyle" />
+
+        </FrameLayout>
+
+        <!-- Label Text -->
+        <TextView
+            android:id="@+id/label_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/label_background"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:text="@string/label_gor"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</FrameLayout>

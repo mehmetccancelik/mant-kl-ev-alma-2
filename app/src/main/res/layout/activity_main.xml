@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- Logo / Title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🏠 Ev Analiz"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Ekranda gördüğün ev mantıklı mı?"
+        android:textSize="16sp" />
+
+    <!-- Status -->
+    <TextView
+        android:id="@+id/status_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="#F5F5F5"
+        android:padding="16dp"
+        android:text="Durum kontrol ediliyor..."
+        android:textSize="14sp" />
+
+    <!-- Buttons -->
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:enabled="false"
+        android:text="Başlat" />
+
+    <Button
+        android:id="@+id/accessibility_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Erişilebilirlik Ayarları"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+    <!-- Instructions -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Kullanım:\n1. İzinleri verin\n2. Başlat'a tıklayın\n3. Herhangi bir emlak ilanına gidin\n4. Floating butona tıklayın"
+        android:textSize="14sp"
+        android:lineSpacingExtra="4dp" />
+
+</LinearLayout>

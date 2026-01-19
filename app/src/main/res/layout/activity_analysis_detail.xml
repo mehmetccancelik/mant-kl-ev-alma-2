@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <!-- Başlık -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📊 EV YATIRIM ANALİZİ"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#1565C0"
+            android:gravity="center"
+            android:paddingBottom="12dp" />
+
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <!-- TEMEL VERİLER -->
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="📥 TEMEL GİRİŞ VERİLERİ"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#1565C0"
+                    android:paddingBottom="8dp" />
+
+                <!-- Ev Teklif Fiyatı -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Ev Teklif Fiyatı" android:textSize="13sp" android:gravity="center_vertical"/>
+                    <EditText android:id="@+id/input_house_price" android:layout_width="140dp" android:layout_height="40dp" android:inputType="number" android:textSize="13sp" android:background="@android:drawable/edit_text" android:padding="8dp"/>
+                </LinearLayout>
+
+                <!-- Alım Masraf Oranı -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Alım Masraf Oranı (%)" android:textSize="13sp"/>
+                    <EditText android:id="@+id/input_expense_rate" android:layout_width="140dp" android:layout_height="40dp" android:inputType="numberDecimal" android:text="7" android:textSize="13sp" android:background="@android:drawable/edit_text" android:padding="8dp"/>
+                </LinearLayout>
+
+                <!-- Toplam Alım Masrafı -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Toplam Alım Masrafı" android:textSize="13sp"/>
+                    <TextView android:id="@+id/result_expense" android:layout_width="140dp" android:layout_height="wrap_content" android:text="-" android:textSize="13sp" android:textColor="#666666"/>
+                </LinearLayout>
+
+                <!-- Kredi Oranı -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Kredi Oranı (%)" android:textSize="13sp"/>
+                    <EditText android:id="@+id/input_loan_rate" android:layout_width="140dp" android:layout_height="40dp" android:inputType="numberDecimal" android:text="50" android:textSize="13sp" android:background="@android:drawable/edit_text" android:padding="8dp"/>
+                </LinearLayout>
+
+                <!-- Kredi Tutarı -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Kredi Tutarı" android:textSize="13sp"/>
+                    <TextView android:id="@+id/result_loan_amount" android:layout_width="140dp" android:layout_height="wrap_content" android:text="-" android:textSize="13sp" android:textColor="#666666"/>
+                </LinearLayout>
+
+                <!-- Peşinat -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Peşinat" android:textSize="13sp"/>
+                    <TextView android:id="@+id/result_down_payment" android:layout_width="140dp" android:layout_height="wrap_content" android:text="-" android:textSize="13sp" android:textColor="#666666"/>
+                </LinearLayout>
+
+                <!-- Aylık Faiz -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Aylık Faiz (%)" android:textSize="13sp"/>
+                    <EditText android:id="@+id/input_interest_rate" android:layout_width="140dp" android:layout_height="40dp" android:inputType="numberDecimal" android:text="2.49" android:textSize="13sp" android:background="@android:drawable/edit_text" android:padding="8dp"/>
+                </LinearLayout>
+
+                <!-- Vade -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Vade (ay)" android:textSize="13sp"/>
+                    <EditText android:id="@+id/input_loan_term" android:layout_width="140dp" android:layout_height="40dp" android:inputType="number" android:text="60" android:textSize="13sp" android:background="@android:drawable/edit_text" android:padding="8dp"/>
+                </LinearLayout>
+
+                <!-- Aylık Taksit -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Aylık Taksit" android:textSize="13sp"/>
+                    <TextView android:id="@+id/result_monthly_installment" android:layout_width="140dp" android:layout_height="wrap_content" android:text="-" android:textSize="13sp" android:textColor="#D32F2F" android:textStyle="bold"/>
+                </LinearLayout>
+
+                <!-- Toplam Geri Ödeme -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Toplam Geri Ödeme" android:textSize="13sp"/>
+                    <TextView android:id="@+id/result_total_repayment" android:layout_width="140dp" android:layout_height="wrap_content" android:text="-" android:textSize="13sp" android:textColor="#666666"/>
+                </LinearLayout>
+
+                <!-- Toplam Maliyet -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Toplam Maliyet" android:textSize="13sp" android:textStyle="bold"/>
+                    <TextView android:id="@+id/result_total_cost" android:layout_width="140dp" android:layout_height="wrap_content" android:text="-" android:textSize="13sp" android:textColor="#D32F2F" android:textStyle="bold"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <!-- KİRA GELİRİ -->
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🏠 KİRA GELİRİ"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#2E7D32"
+                    android:paddingBottom="8dp" />
+
+                <!-- Aylık Kira -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Aylık Kira" android:textSize="13sp"/>
+                    <EditText android:id="@+id/input_monthly_rent" android:layout_width="140dp" android:layout_height="40dp" android:inputType="number" android:textSize="13sp" android:background="@android:drawable/edit_text" android:padding="8dp"/>
+                </LinearLayout>
+
+                <!-- Yıllık Kira -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Yıllık Kira" android:textSize="13sp"/>
+                    <TextView android:id="@+id/result_annual_rent" android:layout_width="140dp" android:layout_height="wrap_content" android:text="-" android:textSize="13sp" android:textColor="#666666"/>
+                </LinearLayout>
+
+                <!-- Kira İstisnası -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Kira İstisnası" android:textSize="13sp"/>
+                    <EditText android:id="@+id/input_rent_exemption" android:layout_width="140dp" android:layout_height="40dp" android:inputType="number" android:text="58000" android:textSize="13sp" android:background="@android:drawable/edit_text" android:padding="8dp"/>
+                </LinearLayout>
+
+                <!-- Vergilendirilen Kira -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Vergilendirilen Kira" android:textSize="13sp"/>
+                    <TextView android:id="@+id/result_taxable_rent" android:layout_width="140dp" android:layout_height="wrap_content" android:text="-" android:textSize="13sp" android:textColor="#666666"/>
+                </LinearLayout>
+
+                <!-- Net Yıllık Kira -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Net Yıllık Kira" android:textSize="13sp" android:textStyle="bold"/>
+                    <TextView android:id="@+id/result_net_annual_rent" android:layout_width="140dp" android:layout_height="wrap_content" android:text="-" android:textSize="13sp" android:textColor="#2E7D32" android:textStyle="bold"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <!-- DEĞERLENDİRME (İNTERAKTİF) -->
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#FFF3E0">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="📈 DEĞERLENDİRME (İnteraktif)"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#E65100"
+                    android:paddingBottom="8dp" />
+
+                <!-- Hedef Amortisman -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Hedef Amortisman (yıl)" android:textSize="13sp"/>
+                    <EditText android:id="@+id/input_target_amort" android:layout_width="140dp" android:layout_height="40dp" android:inputType="number" android:text="25" android:textSize="13sp" android:background="@android:drawable/edit_text" android:padding="8dp"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#FFCC80" android:layout_marginVertical="8dp"/>
+
+                <!-- Vermem Gereken Taksit -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Vermem Gereken Taksit" android:textSize="13sp"/>
+                    <EditText android:id="@+id/input_required_installment" android:layout_width="140dp" android:layout_height="40dp" android:inputType="number" android:textSize="13sp" android:background="@android:drawable/edit_text" android:padding="8dp"/>
+                </LinearLayout>
+
+                <!-- Faiz Oranı -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Faiz Oranı (%)" android:textSize="13sp"/>
+                    <EditText android:id="@+id/input_required_interest" android:layout_width="140dp" android:layout_height="40dp" android:inputType="numberDecimal" android:textSize="13sp" android:background="@android:drawable/edit_text" android:padding="8dp"/>
+                </LinearLayout>
+
+                <!-- Çekmem Gereken Kredi Oranı -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Çekmem Gereken Kredi (%)" android:textSize="13sp"/>
+                    <EditText android:id="@+id/input_required_loan_rate" android:layout_width="140dp" android:layout_height="40dp" android:inputType="numberDecimal" android:textSize="13sp" android:background="@android:drawable/edit_text" android:padding="8dp"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#FFCC80" android:layout_marginVertical="8dp"/>
+
+                <!-- Adil Fiyat -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Adil Fiyat" android:textSize="14sp" android:textStyle="bold"/>
+                    <TextView android:id="@+id/result_fair_price" android:layout_width="140dp" android:layout_height="wrap_content" android:text="-" android:textSize="14sp" android:textColor="#E65100" android:textStyle="bold"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <!-- ÖZET KUTUSU -->
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#E8F5E9">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="📋 ÖZET"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#2E7D32"
+                    android:paddingBottom="8dp" />
+
+                <TextView android:id="@+id/summary_total_credit_cost" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="EVİN HERŞEY DAHİL KREDİLİ FİYATI: -" android:textSize="12sp"/>
+                <TextView android:id="@+id/summary_no_credit_cost" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="EVİN KREDİSİZ MASRAFLARI İLE FİYATI: -" android:textSize="12sp" android:layout_marginTop="2dp"/>
+                <TextView android:id="@+id/summary_rent_support" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="TAKSİTLERE KİRA DESTEĞİ: -" android:textSize="12sp" android:layout_marginTop="2dp"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <!-- YILLIK NET ENFLASYON TAHMİNİ -->
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="📅 YILLIK NET ENFLASYON TAHMİNİ"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#0277BD"
+                    android:paddingBottom="8dp" />
+
+                <!-- Header -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="#E3F2FD" android:padding="4dp">
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="Yıl" android:textSize="12sp" android:textStyle="bold"/>
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="%" android:textSize="12sp" android:textStyle="bold"/>
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Açıklama" android:textSize="12sp" android:textStyle="bold"/>
+                </LinearLayout>
+
+                <!-- 2026 -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="2026" android:textSize="12sp"/>
+                    <EditText android:id="@+id/infl_2026" android:layout_width="60dp" android:layout_height="36dp" android:inputType="numberDecimal" android:text="36" android:textSize="12sp" android:background="@android:drawable/edit_text" android:padding="4dp"/>
+                    <EditText android:id="@+id/infl_note_2026" android:layout_width="0dp" android:layout_weight="1" android:layout_height="36dp" android:text="Sıkı para politikası" android:textSize="11sp" android:background="@android:drawable/edit_text" android:padding="4dp" android:layout_marginStart="4dp"/>
+                </LinearLayout>
+
+                <!-- 2027 -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="2027" android:textSize="12sp"/>
+                    <EditText android:id="@+id/infl_2027" android:layout_width="60dp" android:layout_height="36dp" android:inputType="numberDecimal" android:text="27" android:textSize="12sp" android:background="@android:drawable/edit_text" android:padding="4dp"/>
+                    <EditText android:id="@+id/infl_note_2027" android:layout_width="0dp" android:layout_weight="1" android:layout_height="36dp" android:text="Faiz indirimi patlaması" android:textSize="11sp" android:background="@android:drawable/edit_text" android:padding="4dp" android:layout_marginStart="4dp"/>
+                </LinearLayout>
+
+                <!-- 2028 -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="2028" android:textSize="12sp"/>
+                    <EditText android:id="@+id/infl_2028" android:layout_width="60dp" android:layout_height="36dp" android:inputType="numberDecimal" android:text="38" android:textSize="12sp" android:background="@android:drawable/edit_text" android:padding="4dp"/>
+                    <EditText android:id="@+id/infl_note_2028" android:layout_width="0dp" android:layout_weight="1" android:layout_height="36dp" android:text="Seçim var" android:textSize="11sp" android:background="@android:drawable/edit_text" android:padding="4dp" android:layout_marginStart="4dp"/>
+                </LinearLayout>
+
+                <!-- 2029 -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="2029" android:textSize="12sp"/>
+                    <EditText android:id="@+id/infl_2029" android:layout_width="60dp" android:layout_height="36dp" android:inputType="numberDecimal" android:text="29" android:textSize="12sp" android:background="@android:drawable/edit_text" android:padding="4dp"/>
+                    <EditText android:id="@+id/infl_note_2029" android:layout_width="0dp" android:layout_weight="1" android:layout_height="36dp" android:text="Durulma" android:textSize="11sp" android:background="@android:drawable/edit_text" android:padding="4dp" android:layout_marginStart="4dp"/>
+                </LinearLayout>
+
+                <!-- 2030 -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="2030" android:textSize="12sp"/>
+                    <EditText android:id="@+id/infl_2030" android:layout_width="60dp" android:layout_height="36dp" android:inputType="numberDecimal" android:text="23" android:textSize="12sp" android:background="@android:drawable/edit_text" android:padding="4dp"/>
+                    <EditText android:id="@+id/infl_note_2030" android:layout_width="0dp" android:layout_weight="1" android:layout_height="36dp" android:text="" android:textSize="11sp" android:background="@android:drawable/edit_text" android:padding="4dp" android:layout_marginStart="4dp"/>
+                </LinearLayout>
+
+                <!-- 2031 -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="2031" android:textSize="12sp"/>
+                    <EditText android:id="@+id/infl_2031" android:layout_width="60dp" android:layout_height="36dp" android:inputType="numberDecimal" android:text="17" android:textSize="12sp" android:background="@android:drawable/edit_text" android:padding="4dp"/>
+                    <EditText android:id="@+id/infl_note_2031" android:layout_width="0dp" android:layout_weight="1" android:layout_height="36dp" android:text="" android:textSize="11sp" android:background="@android:drawable/edit_text" android:padding="4dp" android:layout_marginStart="4dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <!-- KONUT ENFLASYON TAHMİNİ -->
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🏗️ KONUT ENFLASYON TAHMİNİ"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#C62828"
+                    android:paddingBottom="8dp" />
+
+                <!-- Header -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="#FFEBEE" android:padding="4dp">
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="Yıl" android:textSize="12sp" android:textStyle="bold"/>
+                    <TextView android:layout_width="70dp" android:layout_height="wrap_content" android:text="Artış %" android:textSize="12sp" android:textStyle="bold"/>
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Konut Değeri (TL)" android:textSize="12sp" android:textStyle="bold"/>
+                </LinearLayout>
+
+                <!-- 2025 -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="2025" android:textSize="12sp"/>
+                    <TextView android:layout_width="70dp" android:layout_height="wrap_content" android:text="-" android:textSize="12sp"/>
+                    <TextView android:id="@+id/housing_val_2025" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="-" android:textSize="12sp" android:textColor="#666666"/>
+                </LinearLayout>
+
+                <!-- 2026 -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="2026" android:textSize="12sp"/>
+                    <EditText android:id="@+id/housing_rate_2026" android:layout_width="70dp" android:layout_height="36dp" android:inputType="numberDecimal" android:text="35" android:textSize="12sp" android:background="@android:drawable/edit_text" android:padding="4dp"/>
+                    <TextView android:id="@+id/housing_val_2026" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="-" android:textSize="12sp" android:textColor="#666666" android:layout_marginStart="4dp"/>
+                </LinearLayout>
+
+                <!-- 2027 -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="2027" android:textSize="12sp"/>
+                    <EditText android:id="@+id/housing_rate_2027" android:layout_width="70dp" android:layout_height="36dp" android:inputType="numberDecimal" android:text="60" android:textSize="12sp" android:background="@android:drawable/edit_text" android:padding="4dp"/>
+                    <TextView android:id="@+id/housing_val_2027" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="-" android:textSize="12sp" android:textColor="#666666" android:layout_marginStart="4dp"/>
+                </LinearLayout>
+
+                <!-- 2028 -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="2028" android:textSize="12sp"/>
+                    <EditText android:id="@+id/housing_rate_2028" android:layout_width="70dp" android:layout_height="36dp" android:inputType="numberDecimal" android:text="65" android:textSize="12sp" android:background="@android:drawable/edit_text" android:padding="4dp"/>
+                    <TextView android:id="@+id/housing_val_2028" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="-" android:textSize="12sp" android:textColor="#666666" android:layout_marginStart="4dp"/>
+                </LinearLayout>
+
+                <!-- 2029 -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="2029" android:textSize="12sp"/>
+                    <EditText android:id="@+id/housing_rate_2029" android:layout_width="70dp" android:layout_height="36dp" android:inputType="numberDecimal" android:text="40" android:textSize="12sp" android:background="@android:drawable/edit_text" android:padding="4dp"/>
+                    <TextView android:id="@+id/housing_val_2029" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="-" android:textSize="12sp" android:textColor="#666666" android:layout_marginStart="4dp"/>
+                </LinearLayout>
+
+                <!-- 2030 -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="2030" android:textSize="12sp"/>
+                    <EditText android:id="@+id/housing_rate_2030" android:layout_width="70dp" android:layout_height="36dp" android:inputType="numberDecimal" android:text="30" android:textSize="12sp" android:background="@android:drawable/edit_text" android:padding="4dp"/>
+                    <TextView android:id="@+id/housing_val_2030" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="-" android:textSize="12sp" android:textColor="#666666" android:layout_marginStart="4dp"/>
+                </LinearLayout>
+
+                <!-- 2031 -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="2031" android:textSize="12sp"/>
+                    <EditText android:id="@+id/housing_rate_2031" android:layout_width="70dp" android:layout_height="36dp" android:inputType="numberDecimal" android:text="25" android:textSize="12sp" android:background="@android:drawable/edit_text" android:padding="4dp"/>
+                    <TextView android:id="@+id/housing_val_2031" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="-" android:textSize="12sp" android:textColor="#C62828" android:textStyle="bold" android:layout_marginStart="4dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Kapat Butonu -->
+        <Button
+            android:id="@+id/btn_close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="KAPAT"
+            android:backgroundTint="#1565C0"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+</ScrollView>

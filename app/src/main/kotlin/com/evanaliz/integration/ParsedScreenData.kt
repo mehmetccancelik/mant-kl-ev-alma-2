@@ -1,0 +1,65 @@
+package com.evanaliz.integration
+
+/**
+ * Parse Edilmiş Ekran Verisi
+ * 
+ * Accessibility'den gelen ham metinlerin parse edilmiş hali.
+ * Ev fiyatı ve kira ayrı ayrı tanımlanır.
+ */
+data class ParsedScreenData(
+    
+    /**
+     * Tespit edilen ev fiyatı (TL)
+     * Null ise fiyat bulunamadı.
+     */
+    val housePrice: Double?,
+    
+    /**
+     * Tespit edilen aylık kira (TL)
+     * Null ise kira bulunamadı.
+     */
+    val estimatedMonthlyRent: Double?,
+    
+    /**
+     * Tüm bulunan sayısal değerler (sıralı)
+     */
+    val allDetectedValues: List<Double>,
+    
+    /**
+     * Kaynak uygulama
+     */
+    val sourcePackage: String
+) {
+    /**
+     * Parse başarılı mı?
+     */
+    val isComplete: Boolean
+        get() = housePrice != null && estimatedMonthlyRent != null
+        
+    companion object {
+        fun empty(sourcePackage: String = "unknown") = ParsedScreenData(
+            housePrice = null,
+            estimatedMonthlyRent = null,
+            allDetectedValues = emptyList(),
+            sourcePackage = sourcePackage
+        )
+    }
+}
+
+/**
+ * Parse Hatası
+ */
+sealed class ParseError {
+    object NoDataFound : ParseError()
+    object InsufficientData : ParseError()
+    object InvalidFormat : ParseError()
+    data class UnexpectedError(val message: String) : ParseError()
+}
+
+/**
+ * Parse Sonucu
+ */
+sealed class ParseResult {
+    data class Success(val data: ParsedScreenData) : ParseResult()
+    data class Failure(val error: ParseError, val rawTexts: List<String>) : ParseResult()
+}

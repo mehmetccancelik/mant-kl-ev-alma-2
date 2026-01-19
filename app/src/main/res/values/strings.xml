@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ev Analiz</string>
+    <string name="fab_icon_description">Ev analiz butonu</string>
+    <string name="label_gor">GÖR</string>
+    <string name="accessibility_service_description">Ekrandaki ev fiyatı ve kira bilgilerini okur</string>
+</resources>

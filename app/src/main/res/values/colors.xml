@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="primary">#2196F3</color>
+    <color name="primary_dark">#1976D2</color>
+    <color name="primary_light">#BBDEFB</color>
+    
+    <!-- Accent Color -->
+    <color name="accent">#FF5722</color>
+    
+    <!-- State Colors -->
+    <color name="state_idle">#757575</color>
+    <color name="state_processing">#FFA000</color>
+    <color name="state_success">#2196F3</color>
+    <color name="state_error">#F44336</color>
+    
+    <!-- Verdict Colors -->
+    <color name="verdict_logical">#4CAF50</color>
+    <color name="verdict_overpriced">#F44336</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    
+    <!-- Background -->
+    <color name="background">#FAFAFA</color>
+</resources>
